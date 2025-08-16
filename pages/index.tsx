@@ -11,6 +11,7 @@ import {
   formatFriendlyDateTime,
   formatFriendlyDateTimeRange,
 } from '@/lib/date-utils'
+import { useAptabase } from '@aptabase/react'
 import request, { gql } from 'graphql-request'
 import {
   BookText,
@@ -166,6 +167,12 @@ export default function Home({ events }: HomeProps) {
   }, [events])
 
   const { resolvedTheme } = useTheme()
+  const { trackEvent } = useAptabase()
+  const trackBadgeClick = (badge: 'Apple' | 'Google') => {
+    trackEvent('Click App Badge', {
+      badge,
+    })
+  }
 
   return (
     <div>
@@ -279,7 +286,7 @@ export default function Home({ events }: HomeProps) {
               <p className="flex-1 text-muted-foreground">
                 Die{' '}
                 <Link
-                  href="https://next.neuland.app"
+                  href="https://neuland.app"
                   target="_blank"
                   className="text-primary"
                 >
@@ -296,10 +303,11 @@ export default function Home({ events }: HomeProps) {
                   target="_blank"
                   rel="noreferrer"
                   passHref
+                  onClick={() => trackBadgeClick('Apple')}
                 >
                   <Image
                     alt="Download im App Store"
-                    src="https://next.neuland.app/assets/Apple_Badge_DE.svg"
+                    src="https://neuland.app/assets/Apple_Badge_DE.svg"
                     width={150}
                     height={50}
                   />
@@ -308,10 +316,11 @@ export default function Home({ events }: HomeProps) {
                   href="https://play.google.com/store/apps/details?id=app.neuland"
                   target="_blank"
                   passHref
+                  onClick={() => trackBadgeClick('Google')}
                 >
                   <Image
                     alt="Get it on Google Play"
-                    src="https://next.neuland.app/assets/Google_Badge_DE.svg"
+                    src="https://neuland.app/assets/Google_Badge_DE.svg"
                     width={165}
                     height={50}
                   />
